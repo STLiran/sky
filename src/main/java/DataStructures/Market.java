@@ -11,21 +11,23 @@ public class Market {
 
     private static String classname = Market.class.getSimpleName();
 
-    Integer msgId;
-    String operation;
-    String type;
-    Double timestamp;
-    String eventId;
-    String marketId;
-    String name;
-    Boolean displayed;
-    Boolean suspended;
-    List<Outcome> outcomeList;
+    private Integer msgId;
+    private String operation;
+    private String type;
+    private Double timestamp;
+    private String eventId;
+    private String marketId;
+    private String name;
+    private Boolean displayed;
+    private Boolean suspended;
+    private List<Outcome> outcomeList;
 
     ////////////////////////////
-    //Constructors METHODS//////
+    ///////  Constructors //////
+    ////////////////////////////
 
     public Market() {
+        this.outcomeList= new LinkedList<>();
     }
 
     public Market(String[] wordArr) {
@@ -38,7 +40,7 @@ public class Market {
         this.name=wordArr[7];
         this.displayed= Boolean.valueOf(wordArr[8]);
         this.suspended= Boolean.valueOf(wordArr[9]);
-        this.outcomeList= new LinkedList<Outcome>();
+        this.outcomeList= new LinkedList<>();
     }
 
     ////////////////////////////
@@ -47,29 +49,23 @@ public class Market {
 
 
     public boolean isEmpty() {
-        String logPrefix = classname + "isEmpty";
+        String logPrefix = classname + ":isEmpty:";
         try{
-            if (null==this.getMsgId() || "".equals(this.getMsgId())){
-                return true;
-            }else{
-                return false;
-            }
+            return null == this.getMsgId();
         }catch (Exception e){
             System.out.println(logPrefix + "Couldn't check if isnt Empty, err:" + e.getMessage());
             return true;
         }
     }
 
-    public static JSONArray createMarketsJsonArray(List<Market> marketList) {
+    static JSONArray createMarketsJsonArray(List<Market> marketList) {
         JSONArray jsonArray = new JSONArray();
-        for (int i = 0; i < marketList.size(); i++) {
-            jsonArray.put(Market.createMarketJson(marketList.get(i)));
-        }
+        marketList.forEach(market->jsonArray.put(Market.createMarketJson(market)));
         return jsonArray;
     }
 
     private static JSONObject createMarketJson(Market market) {
-        String logPrefix = classname + "createMarketJson";
+        String logPrefix = classname + ":createMarketJson:";
         JSONObject jsonObject = new JSONObject();
         try {
             jsonObject.put("msgId",market.getMsgId());
@@ -92,84 +88,44 @@ public class Market {
     /////Getters And Setters////
     ////////////////////////////
 
-    public Integer getMsgId() {
+    private Integer getMsgId() {
         return msgId;
     }
 
-    public void setMsgId(Integer msgId) {
-        this.msgId = msgId;
-    }
-
-    public String getOperation() {
+    private String getOperation() {
         return operation;
     }
 
-    public void setOperation(String operation) {
-        this.operation = operation;
-    }
-
-    public String getType() {
+    private String getType() {
         return type;
     }
 
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    public Double getTimestamp() {
+    private Double getTimestamp() {
         return timestamp;
     }
 
-    public void setTimestamp(Double timestamp) {
-        this.timestamp = timestamp;
-    }
-
-    public String getEventId() {
+    private String getEventId() {
         return eventId;
     }
 
-    public void setEventId(String eventId) {
-        this.eventId = eventId;
-    }
-
-    public String getMarketId() {
+    private String getMarketId() {
         return marketId;
     }
 
-    public void setMarketId(String marketId) {
-        this.marketId = marketId;
-    }
-
-    public String getName() {
+    private String getName() {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public Boolean getDisplayed() {
+    private Boolean getDisplayed() {
         return displayed;
     }
 
-    public void setDisplayed(Boolean displayed) {
-        this.displayed = displayed;
-    }
-
-    public Boolean getSuspended() {
+    private Boolean getSuspended() {
         return suspended;
-    }
-
-    public void setSuspended(Boolean suspended) {
-        this.suspended = suspended;
     }
 
     public List<Outcome> getOutcomeList() {
         return outcomeList;
-    }
-
-    public void setOutcomeList(List<Outcome> outcomeList) {
-        this.outcomeList = outcomeList;
     }
 
 }

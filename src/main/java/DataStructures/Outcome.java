@@ -10,76 +10,72 @@ public class Outcome {
 
     private static String classname = Outcome.class.getSimpleName();
 
-    Integer msgId;
-    String operation;
-    String type;
-    Double timestamp;
-    String marketId;
-    String name;
-    String outcomeId;
-    String price;
-    Boolean displayed;
-    Boolean suspended;
+    private Integer msgId;
+    private String operation;
+    private String type;
+    private Double timestamp;
+    private String marketId;
+    private String name;
+    private String outcomeId;
+    private String price;
+    private Boolean displayed;
+    private Boolean suspended;
 
     ////////////////////////////
-    //Constructors METHODS//////
+    ///////  Constructors //////
+    ////////////////////////////
+    public Outcome() {
+    }
 
     public Outcome(String[] wordArr) {
-        this.msgId= Integer.valueOf(wordArr[1]);
-        this.operation=wordArr[2];
-        this.type=wordArr[3];
-        this.timestamp= Double.valueOf(wordArr[4]);
-        this.marketId=wordArr[5];
-        this.name=wordArr[6];
-        this.outcomeId=wordArr[7];
-        this.price=wordArr[8];
-        this.displayed= Boolean.valueOf(wordArr[9]);
-        this.suspended= Boolean.valueOf(wordArr[10]);
+        this.msgId = Integer.valueOf(wordArr[1]);
+        this.operation = wordArr[2];
+        this.type = wordArr[3];
+        this.timestamp = Double.valueOf(wordArr[4]);
+        this.marketId = wordArr[5];
+        this.name = wordArr[6];
+        this.outcomeId = wordArr[7];
+        this.price = wordArr[8];
+        this.displayed = Boolean.valueOf(wordArr[9]);
+        this.suspended = Boolean.valueOf(wordArr[10]);
     }
 
     ////////////////////////////
     ///////HELPER METHODS///////
     ////////////////////////////
 
-
     public boolean isEmpty() {
-        String logPrefix = classname + "isEmpty";
-        try{
-            if (null==this.getMsgId() || "".equals(this.getMsgId())){
-                return true;
-            }else{
-                return false;
-            }
-        }catch (Exception e){
-            System.out.println(logPrefix + "Couldn't check if isnt Empty, err:" + e.getMessage());
+        String logPrefix = classname + ":isEmpty:";
+        try {
+            return null == this.getMsgId();
+        } catch (Exception e) {
+            System.out.println(logPrefix + "Couldn't check if isn't Empty, err:" + e.getMessage());
             return true;
         }
     }
 
-    public static JSONArray createOutcomesJsonArray(List<Outcome> outcomeList) {
+    static JSONArray createOutcomesJsonArray(List<Outcome> outcomeList) {
         JSONArray jsonArray = new JSONArray();
-        for (int i = 0; i < outcomeList.size(); i++) {
-            jsonArray.put(Outcome.createOutcomeJson(outcomeList.get(i)));
-        }
+        outcomeList.forEach(outcome -> jsonArray.put(Outcome.createOutcomeJson(outcome)));
         return jsonArray;
     }
 
     private static JSONObject createOutcomeJson(Outcome outcome) {
-        String logPrefix = classname + "createOutcomeJson";
+        String logPrefix = classname + ":createOutcomeJson:";
         JSONObject jsonObject = new JSONObject();
         try {
-            jsonObject.put("msgId",outcome.getMsgId());
-            jsonObject.put("operation",outcome.getOperation());
-            jsonObject.put("type",outcome.getType());
-            jsonObject.put("timestamp",outcome.getTimestamp());
-            jsonObject.put("marketId",outcome.getMarketId());
-            jsonObject.put("name",outcome.getName());
-            jsonObject.put("outcomeId",outcome.getOutcomeId());
-            jsonObject.put("price",outcome.getPrice());
-            jsonObject.put("displayed",outcome.getDisplayed());
-            jsonObject.put("suspended",outcome.getSuspended());
+            jsonObject.put("msgId", outcome.getMsgId());
+            jsonObject.put("operation", outcome.getOperation());
+            jsonObject.put("type", outcome.getType());
+            jsonObject.put("timestamp", outcome.getTimestamp());
+            jsonObject.put("marketId", outcome.getMarketId());
+            jsonObject.put("name", outcome.getName());
+            jsonObject.put("outcomeId", outcome.getOutcomeId());
+            jsonObject.put("price", outcome.getPrice());
+            jsonObject.put("displayed", outcome.getDisplayed());
+            jsonObject.put("suspended", outcome.getSuspended());
         } catch (JSONException e) {
-            System.out.println(logPrefix+ "Error:" + e.getMessage());
+            System.out.println(logPrefix + "Error:" + e.getMessage());
         }
         return jsonObject;
     }
@@ -89,84 +85,54 @@ public class Outcome {
     ////////////////////////////
 
 
-    public Integer getMsgId() {
+    private Integer getMsgId() {
         return msgId;
     }
 
-    public void setMsgId(Integer msgId) {
-        this.msgId = msgId;
-    }
 
-    public String getOperation() {
+    private String getOperation() {
         return operation;
     }
 
-    public void setOperation(String operation) {
-        this.operation = operation;
-    }
 
-    public String getType() {
+    private String getType() {
         return type;
     }
 
-    public void setType(String type) {
-        this.type = type;
-    }
 
-    public Double getTimestamp() {
+    private Double getTimestamp() {
         return timestamp;
     }
 
-    public void setTimestamp(Double timestamp) {
-        this.timestamp = timestamp;
-    }
 
-    public String getMarketId() {
+    private String getMarketId() {
         return marketId;
     }
 
-    public void setMarketId(String marketId) {
-        this.marketId = marketId;
-    }
 
-    public String getName() {
+    private String getName() {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
 
-    public String getOutcomeId() {
+    private String getOutcomeId() {
         return outcomeId;
     }
 
-    public void setOutcomeId(String outcomeId) {
-        this.outcomeId = outcomeId;
-    }
 
-    public String getPrice() {
+    private String getPrice() {
         return price;
     }
 
-    public void setPrice(String price) {
-        this.price = price;
-    }
 
-    public Boolean getDisplayed() {
+    private Boolean getDisplayed() {
         return displayed;
     }
 
-    public void setDisplayed(Boolean displayed) {
-        this.displayed = displayed;
-    }
 
-    public Boolean getSuspended() {
+    private Boolean getSuspended() {
         return suspended;
     }
 
-    public void setSuspended(Boolean suspended) {
-        this.suspended = suspended;
-    }
 
 }

@@ -10,24 +10,25 @@ public class Event {
 
     private static String classname = Event.class.getSimpleName();
 
-    Integer msgId;
-    String operation;
-    String type;
-    Double timestamp;
-    String eventId;
-    String category;
-    String subCategory;
-    String name;
-    Double startTime;
-    boolean displayed;
-    boolean suspended;
-    List<Market> marketList;
+    private Integer msgId;
+    private String operation;
+    private String type;
+    private Double timestamp;
+    private String eventId;
+    private String category;
+    private String subCategory;
+    private String name;
+    private Double startTime;
+    private boolean displayed;
+    private boolean suspended;
+    private List<Market> marketList;
 
     ////////////////////////////
-    //Constructors METHODS//////
+    ///////  Constructors //////
     ////////////////////////////
 
     public Event() {
+        this.marketList = new LinkedList<>();
     }
 
     public Event(String[] wordArr) {
@@ -42,7 +43,7 @@ public class Event {
         this.startTime = Double.valueOf(wordArr[9]);
         this.displayed = Boolean.parseBoolean(wordArr[10]);
         this.suspended = Boolean.parseBoolean(wordArr[11]);
-        this.marketList = new LinkedList<Market>();
+        this.marketList = new LinkedList<>();
     }
 
 ////////////////////////////
@@ -50,37 +51,33 @@ public class Event {
 ////////////////////////////
 
     public boolean isEmpty() {
-        String logPrefix = classname + "isEmpty";
+        String logPrefix = classname + ":isEmpty:";
         try {
-            if (null == this.getMsgId() || "".equals(this.getMsgId())) {
-                return true;
-            } else {
-                return false;
-            }
+            return null == this.getMsgId();
         } catch (Exception e) {
-            System.out.println(logPrefix + "Couldn't check if isnt Empty, err:" + e.getMessage());
+            System.out.println(logPrefix + "Couldn't check if isn't Empty, err:" + e.getMessage());
             return true;
         }
     }
 
     public static JSONObject toJson(Event event) {
-        String logPrefix = classname + "toJson";
+        String logPrefix = classname + ":toJson:";
         JSONObject obj = new JSONObject();
         try {
-            obj.put("msgId",event.getMsgId());
-            obj.put("operation",event.getOperation());
-            obj.put("type",event.getType());
-            obj.put("timestamp",event.getTimestamp());
-            obj.put("eventId",event.getEventId());
-            obj.put("category",event.getCategory());
-            obj.put("subCategory",event.getSubCategory());
-            obj.put("name",event.getName());
-            obj.put("startTime",event.getStartTime());
-            obj.put("displayed",event.isDisplayed());
-            obj.put("suspended",event.isSuspended());
-            obj.put("marketList",Market.createMarketsJsonArray(event.getMarketList()));
+            obj.put("msgId", event.getMsgId());
+            obj.put("operation", event.getOperation());
+            obj.put("type", event.getType());
+            obj.put("timestamp", event.getTimestamp());
+            obj.put("eventId", event.getEventId());
+            obj.put("category", event.getCategory());
+            obj.put("subCategory", event.getSubCategory());
+            obj.put("name", event.getName());
+            obj.put("startTime", event.getStartTime());
+            obj.put("displayed", event.isDisplayed());
+            obj.put("suspended", event.isSuspended());
+            obj.put("marketList", Market.createMarketsJsonArray(event.getMarketList()));
         } catch (JSONException e) {
-            System.out.println(logPrefix+ "Error:" + e.getMessage());
+            System.out.println(logPrefix + "Error:" + e.getMessage());
         }
         return obj;
     }
@@ -89,7 +86,7 @@ public class Event {
     /////Getters And Setters////
     ////////////////////////////
 
-    public Integer getMsgId() {
+    private Integer getMsgId() {
         return msgId;
     }
 
@@ -97,7 +94,7 @@ public class Event {
         this.msgId = msgId;
     }
 
-    public String getOperation() {
+    private String getOperation() {
         return operation;
     }
 
@@ -105,7 +102,7 @@ public class Event {
         this.operation = operation;
     }
 
-    public String getType() {
+    private String getType() {
         return type;
     }
 
@@ -113,7 +110,7 @@ public class Event {
         this.type = type;
     }
 
-    public Double getTimestamp() {
+    private Double getTimestamp() {
         return timestamp;
     }
 
@@ -121,7 +118,7 @@ public class Event {
         this.timestamp = timestamp;
     }
 
-    public String getEventId() {
+    private String getEventId() {
         return eventId;
     }
 
@@ -129,7 +126,7 @@ public class Event {
         this.eventId = eventId;
     }
 
-    public String getCategory() {
+    private String getCategory() {
         return category;
     }
 
@@ -137,7 +134,7 @@ public class Event {
         this.category = category;
     }
 
-    public String getSubCategory() {
+    private String getSubCategory() {
         return subCategory;
     }
 
@@ -145,7 +142,7 @@ public class Event {
         this.subCategory = subCategory;
     }
 
-    public String getName() {
+    private String getName() {
         return name;
     }
 
@@ -153,7 +150,7 @@ public class Event {
         this.name = name;
     }
 
-    public Double getStartTime() {
+    private Double getStartTime() {
         return startTime;
     }
 
@@ -161,7 +158,7 @@ public class Event {
         this.startTime = startTime;
     }
 
-    public boolean isDisplayed() {
+    private boolean isDisplayed() {
         return displayed;
     }
 
@@ -169,7 +166,7 @@ public class Event {
         this.displayed = displayed;
     }
 
-    public boolean isSuspended() {
+    private boolean isSuspended() {
         return suspended;
     }
 

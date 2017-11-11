@@ -9,9 +9,37 @@ public enum Type {
 
     private String type;
 
+    ////////////////////////////
+    ///////  Constructors //////
+    ////////////////////////////
+
     Type(String type) {
         this.type = type;
     }
+
+    ////////////////////////////
+    ///////HELPER METHODS///////
+    ////////////////////////////
+
+    public static Type getTypeByVal(String op) {
+        String logPrefix = classname + ":getTypeByVal:";
+        switch (op) {
+            case "event":
+                return Type.EVENT;
+            case "outcome":
+                return Type.OUTCOME;
+            case "market":
+                return Type.MARKET;
+            default:
+                System.out.println(logPrefix + "Unknown type");
+                break;
+        }
+        return null;
+    }
+
+    ////////////////////////////
+    /////Getters And Setters////
+    ////////////////////////////
 
     public String getType() {
         return type;
@@ -21,18 +49,4 @@ public enum Type {
         this.type = type;
     }
 
-    public static Type getTypeByVal(String op) {
-        String logPrefix = classname + "main";
-        if (op.equals("event")) {
-            return Type.EVENT;
-        }
-        if (op.equals("outcome")) {
-            return Type.OUTCOME;
-        }
-        if (op.equals("market")) {
-            return Type.MARKET;
-        }
-        System.out.println(logPrefix + "Unknown type");
-        return null;
-    }
 }

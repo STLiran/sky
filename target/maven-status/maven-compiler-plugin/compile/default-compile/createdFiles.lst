@@ -1,6 +1,7 @@
 SkyBetSol.class
-DataStructures\Type.class
 DataStructures\Outcome.class
+DataStructures\Market.class
+DataStructures\Type.class
 SkyBetSol$1.class
 DataStructures\Event.class
-DataStructures\Market.class
+UnitT.class

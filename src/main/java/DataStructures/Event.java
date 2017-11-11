@@ -8,7 +8,7 @@ import java.util.List;
 
 public class Event {
 
-    private static String classname = Event.class.getSimpleName();
+    private final static String classname = Event.class.getSimpleName();
 
     private Integer msgId;
     private String operation;
@@ -176,10 +176,6 @@ public class Event {
 
     public List<Market> getMarketList() {
         return marketList;
-    }
-
-    public void setMarketList(List<Market> marketList) {
-        this.marketList = marketList;
     }
 
 

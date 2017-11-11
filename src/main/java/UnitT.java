@@ -9,15 +9,13 @@ import org.junit.jupiter.api.Test;
 import java.net.UnknownHostException;
 
 class UnitT {
-    private static String classname = UnitT.class.getSimpleName();
-    private final int port = 27017;
-    private final String  host = "localhost";
+    private final static String classname = UnitT.class.getSimpleName();
 
     @Test
     void addEmptyEventTest() {
-        String logPrefix = classname + ":unableToAddEmptyEventTest:";
+        String logPrefix = classname + ":addEmptyEventTest:";
         try {
-            assert SkyBetSol.saveEventToMongo(new Event(),host,port);
+            assert SkyBetSol.saveEventToMongo(new Event(), SkyBetSol.mongoHost, SkyBetSol.mongoPort);
         } catch (NullPointerException e) {
             System.out.println(logPrefix + "Success");
         }
@@ -30,7 +28,7 @@ class UnitT {
         market.getOutcomeList().add(new Outcome());
         ev.getMarketList().add(market);
 
-        assert SkyBetSol.saveEventToMongo(ev,host,port);
+        assert SkyBetSol.saveEventToMongo(ev, SkyBetSol.mongoHost, SkyBetSol.mongoPort);
     }
 
     @Test
@@ -49,38 +47,26 @@ class UnitT {
     @Test
     void saveEventToMongoTest() {
         String logPrefix = classname + ":saveEventToMongoTest:";
-        assert SkyBetSol.saveEventToMongo(createTestEvent(),host,port);
+        assert SkyBetSol.saveEventToMongo(createTestEvent(), SkyBetSol.mongoHost, SkyBetSol.mongoPort);
         try {
-            Mongo mongo = new Mongo("localhost", 27017);
-            DB db = mongo.getDB("admin");
-            DBCollection collection = db.getCollection("myCollection");
+            Mongo mongo = new Mongo(SkyBetSol.mongoHost, SkyBetSol.mongoPort);
+            DB db = mongo.getDB(SkyBetSol.dbName);
+            DBCollection collection = db.getCollection(SkyBetSol.collectionName);
 
             BasicDBObject whereQuery = new BasicDBObject();
             whereQuery.put("msgId", 77);
             DBCursor cursor = collection.find(whereQuery);
-            while (cursor.hasNext()){
+            while (cursor.hasNext()) {
                 try {
                     JSONObject curr = new JSONObject(cursor.next().toString());
                     assert compareJsonEvents(curr, Event.toJson(createTestEvent()));
                 } catch (JSONException e) {
                     System.out.println(logPrefix + "Error:" + e.getMessage());
                 }
-
             }
-//            while (collection.find().hasNext()){
-//                try {
-//                    JSONObject curr = new JSONObject(collection.find().next().toString());
-//                    if ( curr.getInt("msgId") == (77)){
-//                       assert compareJsonEvents(curr, Event.toJson(createTestEvent()));
-//                    }
-//                } catch (JSONException e) {
-//                    System.out.println(logPrefix + "Error:" + e.getMessage());
-//                }
-//            }
         } catch (UnknownHostException e) {
             System.out.println(logPrefix + "Error:" + e.getMessage());
         }
-
     }
 
     ////////////////////////////

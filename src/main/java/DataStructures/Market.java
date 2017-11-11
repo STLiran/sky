@@ -9,7 +9,7 @@ import java.util.List;
 
 public class Market {
 
-    private static String classname = Market.class.getSimpleName();
+    private final static String  classname = Market.class.getSimpleName();
 
     private Integer msgId;
     private String operation;
@@ -27,20 +27,20 @@ public class Market {
     ////////////////////////////
 
     public Market() {
-        this.outcomeList= new LinkedList<>();
+        this.outcomeList = new LinkedList<>();
     }
 
     public Market(String[] wordArr) {
-        this.msgId= Integer.valueOf(wordArr[1]);
-        this.operation=wordArr[2];
-        this.type=wordArr[3];
-        this.timestamp= Double.valueOf(wordArr[4]);
-        this.eventId=wordArr[5];
-        this.marketId=wordArr[6];
-        this.name=wordArr[7];
-        this.displayed= Boolean.valueOf(wordArr[8]);
-        this.suspended= Boolean.valueOf(wordArr[9]);
-        this.outcomeList= new LinkedList<>();
+        this.msgId = Integer.valueOf(wordArr[1]);
+        this.operation = wordArr[2];
+        this.type = wordArr[3];
+        this.timestamp = Double.valueOf(wordArr[4]);
+        this.eventId = wordArr[5];
+        this.marketId = wordArr[6];
+        this.name = wordArr[7];
+        this.displayed = Boolean.valueOf(wordArr[8]);
+        this.suspended = Boolean.valueOf(wordArr[9]);
+        this.outcomeList = new LinkedList<>();
     }
 
     ////////////////////////////
@@ -48,19 +48,19 @@ public class Market {
 ////////////////////////////
 
 
-    public boolean isEmpty() {
+    public boolean isNotEmpty() {
         String logPrefix = classname + ":isEmpty:";
-        try{
-            return null == this.getMsgId();
-        }catch (Exception e){
-            System.out.println(logPrefix + "Couldn't check if isnt Empty, err:" + e.getMessage());
-            return true;
+        try {
+            return null != this.getMsgId();
+        } catch (Exception e) {
+            System.out.println(logPrefix + "Couldn't check if isn't Empty, err:" + e.getMessage());
+            return false;
         }
     }
 
     static JSONArray createMarketsJsonArray(List<Market> marketList) {
         JSONArray jsonArray = new JSONArray();
-        marketList.forEach(market->jsonArray.put(Market.createMarketJson(market)));
+        marketList.forEach(market -> jsonArray.put(Market.createMarketJson(market)));
         return jsonArray;
     }
 
@@ -68,18 +68,18 @@ public class Market {
         String logPrefix = classname + ":createMarketJson:";
         JSONObject jsonObject = new JSONObject();
         try {
-            jsonObject.put("msgId",market.getMsgId());
-            jsonObject.put("operation",market.getOperation());
-            jsonObject.put("type",market.getType());
-            jsonObject.put("timestamp",market.getTimestamp());
-            jsonObject.put("eventId",market.getEventId());
-            jsonObject.put("marketId",market.getMarketId());
-            jsonObject.put("name",market.getName());
-            jsonObject.put("displayed",market.getDisplayed());
-            jsonObject.put("suspended",market.getSuspended());
-            jsonObject.put("outcomeList",Outcome.createOutcomesJsonArray(market.getOutcomeList()));
+            jsonObject.put("msgId", market.getMsgId());
+            jsonObject.put("operation", market.getOperation());
+            jsonObject.put("type", market.getType());
+            jsonObject.put("timestamp", market.getTimestamp());
+            jsonObject.put("eventId", market.getEventId());
+            jsonObject.put("marketId", market.getMarketId());
+            jsonObject.put("name", market.getName());
+            jsonObject.put("displayed", market.getDisplayed());
+            jsonObject.put("suspended", market.getSuspended());
+            jsonObject.put("outcomeList", Outcome.createOutcomesJsonArray(market.getOutcomeList()));
         } catch (JSONException e) {
-            System.out.println(logPrefix+ "Error:" + e.getMessage());
+            System.out.println(logPrefix + "Error:" + e.getMessage());
         }
         return jsonObject;
     }

@@ -5,7 +5,7 @@ public enum Type {
     MARKET("market"),
     OUTCOME("outcome");
 
-    private static String classname = Event.class.getSimpleName();
+    private final static String classname = Event.class.getSimpleName();
 
     private String type;
 

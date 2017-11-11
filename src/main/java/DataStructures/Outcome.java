@@ -8,7 +8,7 @@ import java.util.List;
 
 public class Outcome {
 
-    private static String classname = Outcome.class.getSimpleName();
+    private final static String classname = Outcome.class.getSimpleName();
 
     private Integer msgId;
     private String operation;
@@ -24,6 +24,7 @@ public class Outcome {
     ////////////////////////////
     ///////  Constructors //////
     ////////////////////////////
+
     public Outcome() {
     }
 

@@ -15,11 +15,13 @@ import java.util.Scanner;
 
 public class SkyBetSol {
 
-    private static String classname = SkyBetSol.class.getSimpleName();
-    private static final String  host = "localhost";
-    private static final int  port= 8282;
-    private static final int mongoPort = 27017;
-    private static final String mongoHost = "localhost";
+    private final static String classname = SkyBetSol.class.getSimpleName();
+    private static final String host = "localhost";
+    private static final int port = 8282;
+    static final int mongoPort = 27017;
+    static final String mongoHost = "localhost";
+    static final String collectionName = "myCollection";
+    static final String dbName = "admin";
 
 
     public static void main(String[] args) {
@@ -48,7 +50,8 @@ public class SkyBetSol {
         //init the data temporary structures:
         Event eventObj = new Event();
         Market marketObj = new Market();
-        boolean isFirstTime = true;
+        boolean isFirstTime = true; //Because every item is added in the next iteration
+        // isFirstTime prevents the first iteration from adding items.
 
         //read the input stream:
         while (scan.hasNextLine()) {
@@ -59,11 +62,11 @@ public class SkyBetSol {
             switch (Type.getTypeByVal(wordArr[3])) {
                 case EVENT:
                     isFirstTime = false;
-                    if (!marketObj.isEmpty()) { //only insert full objects
+                    if (marketObj.isNotEmpty()) { //only insert full objects
                         eventObj.getMarketList().add(marketObj);
                     }
                     if (!eventObj.isEmpty()) { //prevent saving of the first object
-                        saveEventToMongo(eventObj,host,port); //save previous event
+                        saveEventToMongo(eventObj, mongoHost, mongoPort); //save previous event
                     }
                     eventObj = new Event(wordArr);
                     break;
@@ -71,7 +74,7 @@ public class SkyBetSol {
                     if (isFirstTime) {
                         break;
                     }
-                    if (!marketObj.isEmpty()) { //only insert full objects
+                    if (marketObj.isNotEmpty()) { //only insert full objects
                         eventObj.getMarketList().add(marketObj); //save previous market
                     }
                     marketObj = new Market(wordArr);
@@ -90,13 +93,13 @@ public class SkyBetSol {
         }
     }
 
-    protected static boolean saveEventToMongo(Event eventObj,String host, int port) {
+    static boolean saveEventToMongo(Event eventObj, String host, int port) {
         String logPrefix = classname + ":saveEventToMongo:";
-        Mongo mongo = null;
+        Mongo mongo;
         try {
-            mongo = new Mongo(mongoHost, mongoPort);
-            DB db = mongo.getDB("admin");
-            DBCollection collection = db.getCollection("myCollection");
+            mongo = new Mongo(host, port);
+            DB db = mongo.getDB(dbName);
+            DBCollection collection = db.getCollection(collectionName);
             DBObject dbObject = (DBObject) JSON.parse(Event.toJson(eventObj).toString());
             collection.insert(dbObject);
             return true;
